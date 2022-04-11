@@ -18,6 +18,17 @@ import java.util.StringTokenizer;
 @Service
 public class CrawlingService {
 
+    //change input date format "yyyy-MM-dd"(input) to "MM/dd/yyyy"(Api Parameter Format)
+    public String changeInputDateFormat(String str){
+        StringTokenizer st=new StringTokenizer(str,"-");
+        String year=st.nextToken();
+        String month=st.nextToken();
+        String date=st.nextToken();
+
+        return month+"/"+date+"/"+year;
+    }
+
+    //change format "MM dd, yyyy" to "yyyy-MM-dd"
     public String changeDateFormat(String str){
         StringTokenizer st=new StringTokenizer(str," ");
         String month=st.nextToken();
@@ -77,8 +88,8 @@ public class CrawlingService {
                 .userAgent(USER_AGENT)
                 .header("X-Requested-With","XMLHttpRequest")
                 .data("curr_id",Integer.toString(CURID))
-                .data("st_date",st_date)
-                .data("end_date",end_date)
+                .data("st_date",changeInputDateFormat(st_date))
+                .data("end_date",changeInputDateFormat(end_date))
                 .data("interval_sec","Daily")
                 .data("action","historical_data")
                 .method(Connection.Method.POST)
