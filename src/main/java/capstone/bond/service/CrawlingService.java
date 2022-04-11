@@ -12,10 +12,61 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 @Slf4j
 @Service
 public class CrawlingService {
+
+    public String changeDateFormat(String str){
+        StringTokenizer st=new StringTokenizer(str," ");
+        String month=st.nextToken();
+        String date=st.nextToken().substring(0,2);
+        String year=st.nextToken();
+
+        switch(month){
+            case "Jan":
+                month="01";
+                break;
+            case "Feb":
+                month="02";
+                break;
+            case "Mar":
+                month="03";
+                break;
+            case "Apr":
+                month="04";
+                break;
+            case "May":
+                month="05";
+                break;
+            case "Jun":
+                month="06";
+                break;
+            case "Jul":
+                month="07";
+                break;
+            case "Aug":
+                month="08";
+                break;
+            case "Sep":
+                month="09";
+                break;
+            case "Oct":
+                month="10";
+                break;
+            case "Nov":
+                month="11";
+                break;
+            case "Dec":
+                month="12";
+                break;
+            default:
+                month=null;
+                break;
+        }
+        return year+"-"+month+"-"+date;
+    }
 
     public List<Bond> getStock(String st_date,String end_date,String symbol) throws IOException {
         final String URL="https://www.investing.com/instruments/HistoricalDataAjax";
@@ -45,7 +96,7 @@ public class CrawlingService {
         elements.stream().forEach(e->{
             Elements tds=e.getElementsByTag("td");
             Bond bond=Bond.builder()
-                    .date(tds.get(0).text())
+                    .date(changeDateFormat(tds.get(0).text()))
                     .close(Double.parseDouble(tds.get(1).text()))
                     .open(Double.parseDouble(tds.get(2).text()))
                     .high(Double.parseDouble(tds.get(3).text()))
