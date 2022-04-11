@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.NoSuchElementException;
+
 @RestControllerAdvice
 public class ApiException{
 
@@ -26,5 +28,10 @@ public class ApiException{
     @ExceptionHandler(value={HttpStatusException.class})
     public ApiResult<Object> handleHttpError(HttpStatusException e){
         return (ApiResult<Object>) ApiUtils.error("데이터 포멧을 정확히 입력해주세요",HttpStatus.BAD_REQUEST.value());
+    }
+
+    @ExceptionHandler(value={NoSuchElementException.class})
+    public ApiResult<Object> handleNoElementError(NoSuchElementException e){
+        return (ApiResult<Object>)ApiUtils.error("입력날짜의 포멧을 정확히 입력해주세요.(yyyy-MM-dd)",HttpStatus.BAD_REQUEST.value());
     }
 }
