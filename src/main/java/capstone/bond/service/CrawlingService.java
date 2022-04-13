@@ -10,9 +10,9 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -117,6 +117,22 @@ public class CrawlingService {
             ret.add(bond);
         });
 
+        ret.sort(new Comparator<Bond>() {
+            @Override
+            public int compare(Bond o1, Bond o2) {
+                SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+                Date o1Date= null;
+                Date o2Date=null;
+
+                try {
+                    o1Date = format.parse(o1.getDate());
+                    o2Date=format.parse(o2.getDate());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return o1Date.compareTo(o2Date);
+            }
+        });
 
         return ret;
     }
