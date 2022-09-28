@@ -6,10 +6,11 @@ import capstone.bond.service.CrawlingService;
 import capstone.bond.utils.ApiUtils;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @RestController
@@ -50,10 +51,10 @@ public class Controller {
             , @ApiImplicitParam(name = "end_date", value = "종료날짜(MM/dd/yyyy 형식)", required = true, dataType = "String")
             , @ApiImplicitParam(name="symbol",value=SYMBOLS,required = true,dataType = "String")
     })
-    public ApiResult<List<Bond>> bond(@RequestParam("st_date") String stDate,
-                                      @RequestParam("end_date") String endDate,
-                                      @RequestParam("symbol") String symbol) throws IOException {
-        return ApiUtils.success(crawlingService.getStock(stDate,endDate,symbol));
+    public ResponseEntity<ApiResult<List<Bond>>> bond(@RequestParam("st_date") String stDate,
+                                                      @RequestParam("end_date") String endDate,
+                                                      @RequestParam("symbol") String symbol) throws IOException {
+        return new ResponseEntity<>(ApiUtils.success(crawlingService.getStock(stDate,endDate,symbol)), HttpStatus.OK);
     }
 
 }
