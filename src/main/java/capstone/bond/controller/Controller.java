@@ -47,8 +47,8 @@ public class Controller {
             @ApiResponse(code=403,message="파라미터 형식 확인해주세요")
     })
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "st_date", value = "시작날짜(MM/dd/yyyy 형식)", required = true, dataType = "String")
-            , @ApiImplicitParam(name = "end_date", value = "종료날짜(MM/dd/yyyy 형식)", required = true, dataType = "String")
+            @ApiImplicitParam(name = "st_date", value = "시작날짜(yyyy-MM-dd 형식)", required = true, dataType = "String")
+            , @ApiImplicitParam(name = "end_date", value = "종료날짜(yyyy-MM-dd 형식)", required = true, dataType = "String")
             , @ApiImplicitParam(name="symbol",value=SYMBOLS,required = true,dataType = "String")
     })
     public ResponseEntity<ApiResult<List<Bond>>> bond(@RequestParam("st_date") String stDate,
